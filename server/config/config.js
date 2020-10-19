@@ -1,3 +1,4 @@
+require("./credentials");
 /*
 ============================
 Puerto
@@ -14,6 +15,25 @@ Entorno
 */
 process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 
+/*
+============================
+Expiracion token
+============================
+60 segundos
+60 minutos
+24 horas
+5 días
+*/
+
+process.env.CADUCIDAD_TOKEN = process.env.CADUCIDAD;
+
+/*
+============================
+Semilla Token
+============================
+*/
+
+process.env.SEED_TOKEN = process.env.SEED;
 
 /*
 ============================

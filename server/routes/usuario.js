@@ -1,11 +1,12 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const Usuario = require('../models/usuario');
+const {verificarToken} = require('../middlewares/autentication');
 const _ = require('underscore');
 const app = express();
 
 //obtener todos los usuarios
-app.get('/usuarios', function (req, res) {
+app.get('/usuarios', verificarToken, (req, res) => {
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -35,13 +36,12 @@ app.get('/usuarios', function (req, res) {
 });
 
 //obtener un usuario por id
-app.get('/usuario', function (req, res) {
+app.get('/usuario', verificarToken, (req, res) => {
     res.json('Hello World');
 });
 
-
 //ingresar un usuario
-app.post('/usuario', function (req, res) {
+app.post('/usuario', verificarToken, (req, res) => {
     let body = req.body;
 
     let usuario = new Usuario({
@@ -69,7 +69,7 @@ app.post('/usuario', function (req, res) {
 });
 
 //editar un usuario por id
-app.put('/usuario/:id', function (req, res) {
+app.put('/usuario/:id', verificarToken, (req, res) => {
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'rol']);
 
@@ -90,7 +90,7 @@ app.put('/usuario/:id', function (req, res) {
 });
 
 //eliminar un usuario
-app.delete('/usuario/:id', function (req, res) {
+app.delete('/usuario/:id', verificarToken, (req, res) => {
     let id = req.params.id;
 
     let cambiarEstado = {
