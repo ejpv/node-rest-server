@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const Usuario = require('../models/usuario');
-const {verificarToken} = require('../middlewares/autentication');
+const {verificarToken, verificarAdmin_Rol} = require('../middlewares/autentication');
 const _ = require('underscore');
 const app = express();
 
@@ -35,13 +35,8 @@ app.get('/usuarios', verificarToken, (req, res) => {
     ;
 });
 
-//obtener un usuario por id
-app.get('/usuario', verificarToken, (req, res) => {
-    res.json('Hello World');
-});
-
 //ingresar un usuario
-app.post('/usuario', verificarToken, (req, res) => {
+app.post('/usuario', [verificarToken, verificarAdmin_Rol], (req, res) => {
     let body = req.body;
 
     let usuario = new Usuario({
@@ -69,7 +64,7 @@ app.post('/usuario', verificarToken, (req, res) => {
 });
 
 //editar un usuario por id
-app.put('/usuario/:id', verificarToken, (req, res) => {
+app.put('/usuario/:id', [verificarToken, verificarAdmin_Rol], (req, res) => {
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'rol']);
 
@@ -90,7 +85,7 @@ app.put('/usuario/:id', verificarToken, (req, res) => {
 });
 
 //eliminar un usuario
-app.delete('/usuario/:id', verificarToken, (req, res) => {
+app.delete('/usuario/:id', [verificarToken, verificarAdmin_Rol], (req, res) => {
     let id = req.params.id;
 
     let cambiarEstado = {
