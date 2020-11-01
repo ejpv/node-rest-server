@@ -14,15 +14,17 @@ app.use(bodyParser.json())
 // configuración de las rutas
 app.use(require('./routes/index'));
 
-mongoose.connect(process.env.URLDB,
+mongoose.connect(process.env.MONGO_URI,
     { useNewUrlParser: true, useCreateIndex: true },
     (err, res) => {
         console.log('*** Intentando conectar ***');
         console.log('Resultado: ');
         if (err) throw err;
-        console.log('DB online');
+        console.log('\x1b[36mDB online\x1b[0m');
     });
 
 app.listen(process.env.PORT, () => {
-    console.log("Escuchando en el puerto 3000");
+    console.log(`\x1b[36mEscuchando en el puerto ${process.env.PORT}\x1b[0m`);
 });
+
+

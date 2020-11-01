@@ -6,7 +6,18 @@ const app = express();
 
 // logeo de un usuario
 app.post('/login', function (req, res) {
-    let body = req.body;
+    const body = req.body;
+
+    //Email y contraseña requridos.
+    if (!(body.email && body.password)) {
+        return res.status(400).json({
+            ok: false,
+            err: {
+                message: 'Email y contraseña requridos.'
+            }
+        });
+    }
+
 
     Usuario.findOne({ email: body.email }, (err, usuarioDb) => {
         if (err) {
@@ -21,17 +32,17 @@ app.post('/login', function (req, res) {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'Usuario o Contraseña Incorrecto'
+                    message: 'El usuario no existe.'
                 }
             });
         }
 
         //comparar contraseña encriptandola y comparando la encriptación
         if (!bcrypt.compareSync(body.password, usuarioDb.password)) {
-            return res.status(400).json({
+            return res.status(401).json({
                 ok: false,
                 err: {
-                    message: 'Usuario o Contraseña Incorrecto'
+                    message: 'Contraseña Incorrecta.'
                 }
             });
         }
