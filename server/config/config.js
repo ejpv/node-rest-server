@@ -24,7 +24,7 @@ Expiracion token
 5 días
 */
 
-process.env.CADUCIDAD_TOKEN = process.env.CADUCIDAD;
+process.env.CADUCIDAD_TOKEN = process.env.CADUCIDAD_TOKEN ||  '24h';
 
 /*
 ============================
@@ -32,7 +32,7 @@ Semilla Token
 ============================
 */
 
-process.env.SEED_TOKEN = process.env.SEED;
+process.env.SEED_TOKEN = process.env.SEED_TOKEN || 'seed-token-node';
 
 /*
 ============================
@@ -40,9 +40,4 @@ DB
 ============================
 */
 
-if (process.env.NODE_ENV === 'dev') {
-    urlDB = 'mongodb://localhost:27017/cafe';
-} else {
-    urlDB = process.env.MONGO_URI;
-}
-process.env.URLDB = urlDB;
+process.env.MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/cafe';
