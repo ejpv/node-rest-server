@@ -24,7 +24,7 @@ Expiracion token
 5 días
 */
 
-process.env.CADUCIDAD_TOKEN = process.env.CADUCIDAD_TOKEN ||  60 * 60 * 24 * 5;
+process.env.CADUCIDAD_TOKEN = process.env.CADUCIDAD_TOKEN ||  '24h';
 
 /*
 ============================
