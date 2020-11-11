@@ -19,6 +19,10 @@ let verificarToken = (req, res, next) => {
 
 };
 
+// ======================
+//  Verificar Admin Rol
+// ======================
+
 let verificarAdmin_Rol = (req, res, next) => {
 
     let usuario = req.usuario;
@@ -36,8 +40,26 @@ let verificarAdmin_Rol = (req, res, next) => {
 
 };
 
+// ======================
+//  Verificar Token img por url
+// ======================
 
+let verificarTokenImg = (req, res, next) => {
+    let token = req.query.token;
+    //en el url debe estar "?token=123123..."
+    jwt.verify(token, process.env.SEED_TOKEN, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({
+                ok: false,
+                err
+            });
+        }
+        req.usuario = decoded.usuario;
+        next();
+    });
+}
 module.exports = {
     verificarToken,
-    verificarAdmin_Rol
+    verificarAdmin_Rol,
+    verificarTokenImg
 }
